@@ -31,7 +31,7 @@ namespace CommanderGQL.GraphQL.Commands
                 .Description("Represents the unique ID of the platform which the command belongs.");
             descriptor
                 .Field(c => c.Platform)
-                .ResolveWith<Resolvers>(c => c.GetPlatform(default!, default!))
+                .ResolveWith<Resolvers>(c => Resolvers.GetPlatform(default!, default!))
                 .UseDbContext<AppDbContext>()
                 .Description("This is the platform to which the command belongs.");
 
@@ -41,7 +41,7 @@ namespace CommanderGQL.GraphQL.Commands
 
         protected class Resolvers
         {
-            public Platform GetPlatform(Command command, [ScopedService] AppDbContext context)
+            public static Platform GetPlatform(Command command, [ScopedService] AppDbContext context)
             {
                 return context.Platforms.FirstOrDefault(platform => platform.Id == command.PlatformId);
             }
